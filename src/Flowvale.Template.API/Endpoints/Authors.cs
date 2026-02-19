@@ -14,11 +14,21 @@ public static class Authors
         .WithTags("Authors")
         .AddEndpointFilter<ResultFilter>();
 
-        group.MapGet("/", async (IMediator mediator, CancellationToken cancellationToken, int page = 1, int pageSize = 20, SortOrder order = SortOrder.Ascending) =>
-        {
-            var result = await mediator.Send(new List.Query(page, pageSize, order), cancellationToken);
-            return result.IsSuccess ? Results.Ok(result.Value) : Results.Problem(result.Errors.FirstOrDefault()?.Message);
-        });
+        group.MapGet("/",
+            async (IMediator mediator,
+                CancellationToken cancellationToken,
+                int page = 1,
+                int pageSize = 20,
+                SortOrder order = SortOrder.Ascending) =>
+            mediator.Send(new List.Query(page, pageSize, order), cancellationToken)
+            );
 
+        group.MapGet("/{id}/books",
+            async (IMediator mediator,
+                CancellationToken cancellationToken,
+                string id,
+                int page = 1,
+                int pageSize = 20) =>
+            mediator.Send(new BooksList.Query(page, pageSize, id), cancellationToken));
     }
 }

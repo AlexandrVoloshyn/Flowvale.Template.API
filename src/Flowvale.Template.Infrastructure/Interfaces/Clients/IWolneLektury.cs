@@ -1,6 +1,4 @@
-﻿using Flowvale.Template.Application.Common;
-
-namespace Flowvale.Template.Infrastructure.Interfaces.Clients;
+﻿namespace Flowvale.Template.Infrastructure.Interfaces.Clients;
 
 public record AuthorDetailedDto(
  string name,
@@ -29,13 +27,9 @@ public interface IWolneLektury
 {
     Task<BookDetailedDto?> GetBookAsync(string id, CancellationToken cancellationToken);
 
-    Task<(IReadOnlyCollection<AuthorDetailedDto> Authors, int TotalCount)> GetAuthorsAsync(
-        int page,
-        int pageSize,
-        SortOrder sortOrder,
-        CancellationToken cancellationToken);
-
-    Task<IReadOnlyCollection<AuthorDetailedDto>> GetAllAuthorsAsync(CancellationToken cancellationToken);
+    Task<IReadOnlyCollection<AuthorDetailedDto>> GetAuthorsAsync(CancellationToken cancellationToken);
 
     Task<IReadOnlyCollection<BookDto>> GetBooksAsync(CancellationToken cancellationToken);
+
+    Task<IReadOnlyCollection<BookDto>> GetBooksByAuthorAsync(string authorId, CancellationToken cancellationToken);
 }

@@ -22,4 +22,10 @@ public interface ILibraryRepository
         SortBy sortBy,
         SortOrder sortOrder,
         CancellationToken cancellationToken);
+
+    Task<(IReadOnlyCollection<Book> Items, int TotalCount)> GetBooksByAuthorAsync(
+        int page,
+        int pageSize,
+        string authorId,
+        CancellationToken cancellationToken);
 }

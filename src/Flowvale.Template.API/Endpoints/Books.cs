@@ -27,8 +27,7 @@ public static class Books
                 string? epoch = null,
                 SortBy sortBy = SortBy.Title,
                 SortOrder order = SortOrder.Ascending) =>
-        {
-            var result = await mediator.Send(
+            mediator.Send(
                 new List.Query(
                     page,
                     pageSize,
@@ -36,9 +35,7 @@ public static class Books
                     genre,
                     epoch,
                     sortBy,
-                    order), cancellationToken);
-            return result.IsSuccess ? Results.Ok(result.Value) : Results.Problem(result.Errors.FirstOrDefault()?.Message);
-        })
+                    order), cancellationToken))
             .Produces<PagedResult<BookDto>>();
     }
 }

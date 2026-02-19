@@ -9,8 +9,16 @@ internal class LibraryRepository(IWolneLektury Client) : ILibraryRepository
 {
     public async Task<(IReadOnlyCollection<Author> Items, int TotalCount)> GetAuthorsAsync(int page, int pageSize, SortOrder sortOrder, CancellationToken cancellationToken)
     {
-        var result = await Client.GetAuthorsAsync(page, pageSize, sortOrder, cancellationToken);
-        return (result.Authors.Select(x => new Author(x.slug, x.name)).ToList(), result.TotalCount);
+        var authors = await Client.GetAuthorsAsync(cancellationToken);
+        var totalCount = authors.Count();
+
+        var filtered = sortOrder == SortOrder.Ascending ? authors.OrderBy(a => a.name) : authors.OrderByDescending(a => a.name);
+
+        var result = filtered.Skip((page - 1) * pageSize).Take(pageSize)
+            .Select(a => new Author(a.slug, a.name))
+            .ToArray();
+
+        return (result, totalCount);
     }
 
     public async Task<Book?> GetBookAsync(string id, CancellationToken cancellationToken)
@@ -34,7 +42,7 @@ internal class LibraryRepository(IWolneLektury Client) : ILibraryRepository
 
     public async Task<(IReadOnlyCollection<Book> Items, int TotalCount)> GetBooksAsync(int page, int pageSize, string? kind, string? genre, string? epoch, SortBy sortBy, SortOrder sortOrder, CancellationToken cancellationToken)
     {
-        var authorsTask = Client.GetAllAuthorsAsync(cancellationToken);
+        var authorsTask = Client.GetAuthorsAsync(cancellationToken);
 
         var books = await Client.GetBooksAsync(cancellationToken);
 
@@ -73,6 +81,25 @@ internal class LibraryRepository(IWolneLektury Client) : ILibraryRepository
             new(book.url),
             new(book.simple_thumb),
             [authorsByName[book.author]]
+        )).ToList();
+
+        return (domainItems, totalCount);
+    }
+
+    public async Task<(IReadOnlyCollection<Book> Items, int TotalCount)> GetBooksByAuthorAsync(int page, int pageSize, string authorId, CancellationToken cancellationToken)
+    {
+        var books = await Client.GetBooksByAuthorAsync(authorId, cancellationToken);
+
+        var totalCount = books.Count();
+
+        var pageItems = books.Skip((page - 1) * pageSize).Take(pageSize).ToList();
+
+        var domainItems = pageItems.Select(book => new Book(
+            book.slug,
+            book.title,
+            new(book.url),
+            new(book.simple_thumb),
+            [new(authorId, book.author)]
         )).ToList();
 
         return (domainItems, totalCount);
