@@ -1,0 +1,9 @@
+<Solution>
+  <Folder Name="/Solution Items/">
+    <File Path=".gitignore" />
+  </Folder>
+  <Project Path="src/Flowvale.Template.API/Flowvale.Template.API.csproj" />
+  <Project Path="src/Flowvale.Template.Application/Flowvale.Template.Application.csproj" Id="8b62e0d4-e031-4425-b483-7c560f6c54bf" />
+  <Project Path="src/Flowvale.Template.Domain/Flowvale.Template.Domain.csproj" Id="9ab8e5fc-e7e1-4882-86ae-79027e27c4a4" />
+  <Project Path="src/Flowvale.Template.Infrastructure/Flowvale.Template.Infrastructure.csproj" Id="300ada32-d072-48ba-a933-a2cd80428d73" />
+</Solution>
