@@ -1,6 +1,7 @@
 <Solution>
   <Folder Name="/Solution Items/">
     <File Path=".gitignore" />
+    <File Path="README.md" />
   </Folder>
   <Project Path="src/Flowvale.Template.API/Flowvale.Template.API.csproj" />
   <Project Path="src/Flowvale.Template.Application/Flowvale.Template.Application.csproj" Id="8b62e0d4-e031-4425-b483-7c560f6c54bf" />
