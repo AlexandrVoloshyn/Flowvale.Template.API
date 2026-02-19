@@ -19,7 +19,7 @@ public static class Authors
                 CancellationToken cancellationToken,
                 int page = 1,
                 int pageSize = 20,
-                SortOrder order = SortOrder.Ascending) =>
+                SortOrder order = SortOrder.Asc) =>
             mediator.Send(new List.Query(page, pageSize, order), cancellationToken)
             );
 

@@ -26,7 +26,7 @@ public static class Books
                 string? genre = null,
                 string? epoch = null,
                 SortBy sortBy = SortBy.Title,
-                SortOrder order = SortOrder.Ascending) =>
+                SortOrder order = SortOrder.Asc) =>
             mediator.Send(
                 new List.Query(
                     page,

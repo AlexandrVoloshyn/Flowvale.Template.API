@@ -12,7 +12,7 @@ internal class LibraryRepository(IWolneLektury Client) : ILibraryRepository
         var authors = await Client.GetAuthorsAsync(cancellationToken);
         var totalCount = authors.Count();
 
-        var filtered = sortOrder == SortOrder.Ascending ? authors.OrderBy(a => a.name) : authors.OrderByDescending(a => a.name);
+        var filtered = sortOrder == SortOrder.Asc ? authors.OrderBy(a => a.name) : authors.OrderByDescending(a => a.name);
 
         var result = filtered.Skip((page - 1) * pageSize).Take(pageSize)
             .Select(a => new Author(a.slug, a.name))
@@ -53,11 +53,11 @@ internal class LibraryRepository(IWolneLektury Client) : ILibraryRepository
 
         if (sortBy == SortBy.Title)
         {
-            filtered = sortOrder == SortOrder.Ascending ? filtered.OrderBy(b => b.title) : filtered.OrderByDescending(b => b.title);
+            filtered = sortOrder == SortOrder.Asc ? filtered.OrderBy(b => b.title) : filtered.OrderByDescending(b => b.title);
         }
         else
         {
-            filtered = sortOrder == SortOrder.Ascending
+            filtered = sortOrder == SortOrder.Asc
                 ? filtered.OrderBy(book => book.author)
                 : filtered.OrderByDescending(book => book.author);
         }
