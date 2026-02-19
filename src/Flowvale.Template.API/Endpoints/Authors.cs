@@ -2,6 +2,7 @@
 using Flowvale.Template.Application.Common;
 using Flowvale.Template.Application.Handlers.Authors;
 using Mediator;
+using static Flowvale.Template.Application.Handlers.Books.GetById;
 
 namespace Flowvale.Template.API.Endpoints;
 
@@ -21,7 +22,8 @@ public static class Authors
                 int pageSize = 20,
                 SortOrder order = SortOrder.Asc) =>
             mediator.Send(new List.Query(page, pageSize, order), cancellationToken)
-            );
+            )
+            .Produces<PagedResult<AuthorDto>>();
 
         group.MapGet("/{id}/books",
             async (IMediator mediator,
@@ -29,6 +31,8 @@ public static class Authors
                 string id,
                 int page = 1,
                 int pageSize = 20) =>
-            mediator.Send(new BooksList.Query(page, pageSize, id), cancellationToken));
+            mediator.Send(new BooksList.Query(page, pageSize, id), cancellationToken))
+            .Produces<PagedResult<BookDto>>()
+            .Produces<DetailedError>(400);
     }
 }
